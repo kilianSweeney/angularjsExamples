@@ -1,0 +1,32 @@
+<div class="create-brief-container">
+	<div ng-include src="'app/partials/user-nav.html'"></div>
+	<div class="dashboard_container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="pull-left">
+					<h2 class="page-title">{{briefTitle}}</h2>
+			</div>
+			<div class="pull-left percent-complete-container">
+				<p class="brief-label" ng-model="percentCompleted" translate>{{percentCompleted | number: 0}}% Complete</p>
+				<percent-bar percent-complete="percentCompleted"></percent-bar>
+			</div>
+		</div>
+	</div>
+	<multi-step-container steps="formSteps" search-id="'step'">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="step step-container">
+					<h4 ng-class="($getActiveIndex() === 1) ? 'underline' : ''" ng-click="$setActiveIndex(1)" translate>General</h4>
+					<h4 ng-class="($getActiveIndex() === 2) ? 'underline' : ''" ng-click="$setActiveIndex(2)" translate>Objectives</h4>
+					<h4 ng-class="($getActiveIndex() === 3) ? 'underline' : ''" ng-click="$setActiveIndex(3)" translate>Contact</h4>
+					<h4 ng-class="($getActiveIndex() === 4) ? 'underline' : ''" ng-click="$setActiveIndex(4)" translate>Finance</h4>
+					<h4 ng-class="($getActiveIndex() === 5) ? 'underline' : ''" ng-click="$setActiveIndex(5)" translate>Summary</h4>
+				</div>
+			</div>
+		</div>
+		<step-container class="multi-step-body">
+			<div class="form-step"></div>
+		</step-container>
+	</multi-step-container>
+</div>
+</div>
