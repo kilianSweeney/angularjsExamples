@@ -1,0 +1,51 @@
+<div ng-include src="'app/partials/user-nav.html'"></div>
+<span style="margin-top: 40px;" class="loading-spinner" ng-show="loadingStats.brief.loading">
+    <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
+    <span class="sr-only" translate>common.LOADING</span>
+</span>
+<div class="dashboard_container current-event" ng-hide="loadingStats.brief.loading">
+	<div class="row header-row">
+		<div class="col-md-9">
+			<h1 class="future-title">{{brief.eventName}}</h1>
+			<p class="future-sub">
+				{{startDate}} - {{endDate}}, {{brief.location.city}}, {{brief.location.state}}
+			</p>
+       </div>
+        <div class="col-md-3">
+			<div class="future-summary">
+				<p class="future-sub" translate>
+					Stage: {{brief.eventStage}}
+				</p>
+				<p class="future-sub" translate>
+					Status: {{brief.approvalStatus}}
+				</p>
+				<p class="future-sub" translate>
+					Manager: {{approvalManager}}
+				</p>
+				<p ng-if="approvalUpdateDate" class="future-sub" translate>
+					Last Approval Date: {{approvalUpdateDate}}
+				</p>
+			</div>
+            <button class="button button--brief-edit" ng-show="showEditBtn" ng-click="editBrief()" translate>Edit</button>
+		</div>
+	</div>
+	<multi-step-container steps="formSteps" search-id="'step'">
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="fixed-reports-header">{{brief.eventName}}</div>
+			</div>
+			<div class="step step-container">
+				<h3 class="col-sm-2" ng-class="($getActiveIndex() === 1) ? 'active' : ''" ng-click="$setActiveIndex(1)" translate>Dashboard</h3>
+        <h3 class="col-sm-2" ng-class="($getActiveIndex() === 2) ? 'active' : ''" ng-click="$setActiveIndex(2)" translate>Event Now</h3>
+        <h3 class="col-sm-2" ng-class="($getActiveIndex() === 3) ? 'active' : ''" ng-click="$setActiveIndex(3)" translate>Engagement</h3>
+				<h3 class="col-sm-2" ng-class="($getActiveIndex() === 4) ? 'active' : ''" ng-click="$setActiveIndex(4)" translate>Event Brief</h3>
+				<h3 class="col-sm-2" ng-class="($getActiveIndex() === 5) ? 'active' : ''" ng-click="$setActiveIndex(5)" translate>Data Input</h3>
+				<h3 class="col-sm-2" ng-class="($getActiveIndex() === 6) ? 'active' : ''" ng-click="$setActiveIndex(6)" translate>Comments</h3>
+			</div>
+			<div class="step-container-placeholder"></div>
+		</div>
+		<step-container class="multi-step-body">
+			<div class="form-step"></div>
+		</step-container>
+	</multi-step-container>
+</div>
