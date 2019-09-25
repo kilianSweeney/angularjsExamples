@@ -1,0 +1,164 @@
+<div class="row">
+    <div class="col-xs-12">
+        <div class="anchor-links">
+            <h4 ng-class="(eventsNowActiveIndex === 'registration') ? 'underline' : ''" ng-click="gotoElement('registration')">Registration</h4>
+            <h4 ng-show="configuration.sections[1].enabled" ng-class="(eventsNowActiveIndex === 'nominations') ? 'underline' : ''" ng-click="gotoElement('nominations')">
+                <span ng-if="configuration.sections[1].label.length === 0">Sponsors</span>
+                <span ng-if="configuration.sections[1].label.length > 0">{{configuration.sections[1].label}}</span>
+            </h4>
+            <h4 ng-show="configuration.sections[2].enabled" ng-class="(eventsNowActiveIndex === 'financials') ? 'underline' : ''" ng-click="gotoElement('financials')">
+                <span ng-if="configuration.sections[2].label.length === 0">Financials</span>
+                <span ng-if="configuration.sections[2].label.length > 0">{{configuration.sections[2].label}}</span>
+            </h4>
+            <h4 ng-show="configuration.sections[3].enabled" ng-class="(eventsNowActiveIndex === 'hotel') ? 'underline' : ''" ng-click="gotoElement('hotel')">
+                <span ng-if="configuration.sections[3].label.length === 0">Hotel</span>
+                <span ng-if="configuration.sections[3].label.length > 0">{{configuration.sections[3].label}}</span>
+            </h4>
+        </div>
+        <div class="anchor-links-placeholder"></div>
+    </div>
+</div>
+<div id="registration" class="row">
+    <div class="col-sm-7">
+        <span class="loading-spinner" ng-show="loadingStats.pacingChart.loading">
+            <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
+            <span class="sr-only">Loading...</span>
+        </span>
+        <div class="section-container" ng-controller="eventPacingChartController" ng-hide="loadingStats.pacingChart.loading">
+            <div class="section-title">Pacing/Weeks Out</div>
+            <canvas ng-show="loadingStats.pacingChart.ready" id="registration-line" class="chart chart-line" chart-data="registrationChartData" chart-labels="registrationChartLabels" chart-options="registrationChartOptions" chart-series="registrationChartSeries" chart-colors="registrationChartColors" chart-click="onClick"></canvas>
+            <div ng-hide="loadingStats.pacingChart.ready">No Data To Display</div>
+        </div>
+    </div>
+    <div class="col-sm-5">
+        <span class="loading-spinner" ng-show="loadingStats.roleChart.loading">
+            <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
+            <span class="sr-only">Loading...</span>
+        </span>
+        <div class="section-container" ng-controller="eventRoleChartController" ng-hide="loadingStats.roleChart.loading">
+            <div class="section-title">Registrations by Attendee Type</div>
+            <canvas id="role-pie" class="chart chart-pie" chart-data="roleChartData" chart-labels="roleChartLabels" chart-legend="true" chart-options="roleChartOptions" chart-colors="roleChartColors" chart-click="onClick" ng-show="loadingStats.roleChart.ready"></canvas>
+            <div ng-hide="loadingStats.roleChart.ready">No Data To Display</div>
+        </div>
+    </div>
+</div>
+<div ng-if="loadingStats.opportunitiesChart.loadSection" id="nominations" class="row">
+    <div class="col-md-12">
+        <h2 class="current-header">
+            <span ng-if="configuration.sections[1].label.length === 0">Sponsors</span>
+            <span ng-if="configuration.sections[1].label.length > 0">{{configuration.sections[1].label}}</span>
+        </h2>
+    </div>
+    <div class="col-sm-6">
+        <span class="loading-spinner" ng-show="loadingStats.invitedChart.loading">
+            <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
+            <span class="sr-only">Loading...</span>
+        </span>
+        <div class="section-container clearfix" event-invited-chart ng-hide="loadingStats.invitedChart.loading">
+            <div class="section-title">Invited / Accepted</div>
+            <div ng-show="loadingStats.invitedChart.ready" class="chart-doughnut-wrapper">
+                <canvas width="300" height="300" id="invited-doughnut" class="chart chart-doughnut" chart-options="invitedChartOptions" chart-data="invitedChartData" chart-labels="invitedChartLabels" chart-colors="invitedChartColors" chart-click="onClick"></canvas>
+            </div>
+            <div ng-hide="loadingStats.invitedChart.ready">No Data To Display</div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <span class="loading-spinner" ng-show="loadingStats.opportunitiesChart.loading">
+            <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
+            <span class="sr-only">Loading...</span>
+        </span>
+        <div style="position: relative;" class="section-container clearfix" event-opportunities-chart ng-hide="loadingStats.opportunitiesChart.loading">
+            <div class="section-title">Sum of Invitation Opportunities / Accepted</div>
+            <div ng-show="loadingStats.opportunitiesChart.ready" class="chart-doughnut-wrapper">
+                <canvas width="300" height="300" id="opportunities-doughnut" class="chart chart-doughnut" chart-options="opportunitiesChartOptions" chart-data="opportunitiesChartData" chart-labels="opportunitiesChartLabels" chart-colors="opportunitiesChartColors" chart-click="onClick"></canvas>
+            </div>
+            <div ng-hide="loadingStats.opportunitiesChart.ready">No Data To Display</div>
+        </div>
+    </div>
+</div>
+<div ng-if="loadingStats.feesChart.loadSection" id="financials" class="row">
+    <div class="col-md-12">
+        <h2 class="current-header">
+            <span ng-if="configuration.sections[2].label.length === 0">Financials</span>
+            <span ng-if="configuration.sections[2].label.length > 0">{{configuration.sections[2].label}}</span>
+        </h2>
+    </div>
+    <div class="col-sm-6">
+        <span class="loading-spinner" ng-show="loadingStats.feesChart.loading">
+            <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
+            <span class="sr-only">Loading...</span>
+        </span>
+        <div class="section-container clearfix" event-fees-chart ng-hide="loadingStats.feesChart.loading">
+            <div class="section-title">Registration Fees Collected / Budget</div>
+            <div ng-show="loadingStats.feesChart.ready" class="chart-doughnut-wrapper">
+                <canvas width="300" height="300" id="fees-doughnut" class="chart chart-doughnut" chart-options="feesChartOptions" chart-data="feesChartData" chart-labels="feesChartLabels" chart-colors="feesChartColors" chart-click="onClick"></canvas>
+            </div>
+            <div ng-hide="loadingStats.feesChart.ready">No Data To Display</div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <span class="loading-spinner" ng-show="loadingStats.revenueChart.loading">
+            <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
+            <span class="sr-only">Loading...</span>
+        </span>
+        <div class="section-container clearfix" event-revenue-chart ng-hide="loadingStats.revenueChart.loading">
+            <div class="section-title">Sponsorship Revenue</div>
+            <canvas ng-show="loadingStats.revenueChart.ready" id="revenue-bar" class="chart chart-bar" chart-options="revenueChartOptions" chart-data="revenueChartData" chart-series="revenueChartSeries"  chart-labels="revenueChartLabels" chart-colors="revenueChartColors" chart-click="onClick"></canvas>
+            <div ng-hide="loadingStats.revenueChart.ready">No Data To Display</div>
+        </div>
+    </div>
+</div>
+<div ng-if="loadingStats.roomsChart.loadSection" id="hotel" class="row">
+    <div class="col-md-12">
+        <h2 class="current-header">
+            <span ng-if="configuration.sections[3].label.length === 0">Hotel</span>
+            <span ng-if="configuration.sections[3].label.length > 0">{{configuration.sections[3].label}}</span>
+        </h2>
+    </div>
+    <div class="col-sm-6">
+        <span class="loading-spinner" ng-show="loadingStats.roomsChart.loading">
+            <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
+            <span class="sr-only">Loading...</span>
+        </span>
+        <div class="section-container clearfix" event-rooms-chart ng-hide="loadingStats.roomsChart.loading">
+            <div class="section-title">Rooms Per Night / Target</div>
+            <canvas ng-show="loadingStats.roomsChart.ready" id="rooms-bar" class="chart chart-bar" chart-legend="true" chart-dataset-override="roomsChartDatasetOverride" chart-options="roomsChartOptions" chart-data="roomsChartData" chart-labels="roomsChartLabels" chart-colors="roomsChartColors" chart-click="onClick"></canvas>
+            <div ng-hide="loadingStats.roomsChart.ready">No Data To Display</div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="section-container clearfix">
+            <div class="section-title">Pickup</div>
+            <table ng-show="loadingStats.pickupTable.ready" class="pickup-table">
+                <thead>
+                    <tr>
+                        <th>Hotel</th>
+                        <th>Room Nights</th>
+                        <th>Pick Up</th>
+                        <th>Variance</th>
+                        <th>% Pickup</th>
+                    </tr>
+                </thead>
+                <tbody event-pickup>
+                    <tr ng-show="loadingStats.pickupTable.loading">
+                        <td style="text-align: center;" colspan="5">
+                            <span style="color: #272727;" class="loading-spinner">
+                                <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i>
+                                <span class="sr-only">Loading...</span>
+                            </span>
+                        </td>
+                    </tr>
+                    <tr ng-repeat="object in hotels">
+                        <td>{{object.hotelName}}</td>
+                        <td>{{object.roomsBlocked | number}}</td>
+                        <td>{{object.roomsBooked | number}}</td>
+                        <td>{{object.roomsVariance | number}}</td>
+                        <td>{{object.percentRoomsBlocked}}%</td>
+                   </tr>
+                </tbody>
+            </table>
+            <div ng-hide="loadingStats.pickupTable.ready">No Data To Display</div>
+        </div>
+    </div>
+</div>
+<div event-detail-scroll id="event-detail-scroll"></div>
