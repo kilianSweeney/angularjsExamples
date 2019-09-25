@@ -1,2 +1,2 @@
 # angularjsExamples
-This is sample code from a production app I built, maintained and enhanced for an event management company. On display is my expertise in web development and particularly angularjs
+This is sample code from a production app I built, maintained and enhanced for an event management company. On display is my expertise in web development and particularly angularjs, chartjs (data visualization), html5, css3 and more...
